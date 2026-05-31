@@ -4,6 +4,8 @@ import { RetryAttempt } from './entities/attempt.entity';
 import { RetryRequest } from './entities/request.entity';
 import { ScheduleModule } from '@nestjs/schedule';
 import { HttpModule } from '@nestjs/axios';
+import { RequestsController } from './requests.controller';
+import { RequestsService } from './requests.service';
 
 @Module({
   imports: [
@@ -17,7 +19,7 @@ import { HttpModule } from '@nestjs/axios';
     ScheduleModule.forRoot(),
     HttpModule,
   ],
-  controllers: [],
-  providers: [],
+  controllers: [RequestsController],
+  providers: [RequestsService],
 })
 export class AppModule {}
