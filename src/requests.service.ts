@@ -21,7 +21,7 @@ export class RequestsService {
       status: RequestStatusEnum.pending,
       nextRetryAt: new Date(),
     });
-    
+
     return this.requestRepo.save(request);
   }
 
@@ -41,9 +41,7 @@ export class RequestsService {
   }
 
   async findAll(status?: string): Promise<RetryRequest[]> {
-    const where = status
-      ? { status: status as RequestStatusEnum }
-      : {};
+    const where = status ? { status: status as RequestStatusEnum } : {};
 
     return this.requestRepo.find({
       where,
