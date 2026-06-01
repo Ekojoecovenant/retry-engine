@@ -1,0 +1,46 @@
+@base = http://localhost:3000
+
+###
+POST {{base}}/requests
+Content-Type: application/json
+
+{
+  "url": "{{base}}/mock/fail-three-times?id=test-http-1",
+  "method": "GET",
+  "maxRetries": 5,
+  "backoffMs": 1000
+}
+
+###
+GET {{base}}/requests/123fa120-8de6-4e59-912b-f95d85828eda
+
+###
+POST {{base}}/requests
+Content-Type: application/json
+
+{
+  "url": "{{base}}/mock/always-400",
+  "method": "GET",
+  "maxRetries": 3,
+  "backoffMs": 500
+}
+
+###
+POST {{base}}/requests
+Content-Type: application/json
+
+{
+  "url": "{{base}}/mock/always-500",
+  "method": "GET",
+  "maxRetries": 2,
+  "backoffMs": 500
+}
+
+###4
+GET {{base}}/requests?status=failed
+
+###5
+GET {{base}}/requests?status=completed
+
+###6
+POST {{base}}/mock/reset
