@@ -117,6 +117,8 @@ export class RetryWorkerService {
         // success, then mark as completed
         await manager.update(RetryRequest, request.id, {
           status: RequestStatusEnum.completed,
+          attemptCount: attemptNumber,
+          lastError: null,
           result: JSON.stringify(response.data),
         });
 
@@ -130,6 +132,7 @@ export class RetryWorkerService {
         // client error (4xx), then fail, no retry
         await manager.update(RetryRequest, request.id, {
           status: RequestStatusEnum.failed,
+          attemptCount: attemptNumber,
           lastError: `HTTP ${statusCode}: ${JSON.stringify(response.data)}`,
         });
 
@@ -213,7 +216,7 @@ export class RetryWorkerService {
    * Formula: delay = backoffMs * 2^(attemptNumber - 1) * random(0.8, 1.2)
    */
   private calculateNextRetry(backoffMs: number, attemptCount: number): Date {
-    const baseDelay = backoffMs + Math.pow(2, attemptCount - 1);
+    const baseDelay = backoffMs * Math.pow(2, attemptCount - 1);
     const jitterFactor = 0.8 + Math.random() * 0.4;
     const actualDelayMs = baseDelay * jitterFactor;
 

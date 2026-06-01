@@ -48,7 +48,7 @@ export class RetryRequest {
   nextRetryAt?: Date; // when the worker should pick it again
 
   @Column({ nullable: true, type: 'text' })
-  lastError?: string; // last err msg
+  lastError?: string | null; // last err msg
 
   @Column({ nullable: true, type: 'text' })
   result?: string;
