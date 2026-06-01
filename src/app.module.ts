@@ -7,6 +7,7 @@ import { HttpModule } from '@nestjs/axios';
 import { RequestsController } from './requests.controller';
 import { RequestsService } from './requests.service';
 import { RetryWorkerService } from './retry-worker.service';
+import { MockController } from './mock.controller';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { RetryWorkerService } from './retry-worker.service';
     ScheduleModule.forRoot(),
     HttpModule,
   ],
-  controllers: [RequestsController],
+  controllers: [RequestsController, MockController],
   providers: [RequestsService, RetryWorkerService],
 })
 export class AppModule {}
